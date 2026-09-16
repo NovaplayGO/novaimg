@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NOVAPLAY | ICON STUDIO</title>
+    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e50914;
+            --primary-hover: #b91c1c;
+            --bg: #080a10;
+            --card-bg: #11151f;
+            --input-bg: #1a1f2e;
+            --text: #ffffff;
+            --text-muted: #9aa3b2;
+            --border: #293246;
+            --success: #10b981;
+            --error: #ef4444;
+            --nav-height: 70px;
+        }
+
+        * { box-sizing: border-box; outline: none; margin: 0; padding: 0; }
+        html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+        /* Navegación Premium */
+        .nova-nav { position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .nav-inner { max-width: 1400px; margin: auto; height: var(--nav-height); padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px; }
+        .nav-brand img { width: 36px; height: 32px; border-radius: 8px; }
+        .nav-links { display: flex; gap: 15px; align-items: center; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; padding: 10px 15px; border-radius: 10px; }
+        .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+
+        .btn-login-nav {
+            background: var(--primary);
+            color: #fff !important;
+            font-weight: 800 !important;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            display: none;
+            transition: 0.2s;
+        }
+        .btn-login-nav:hover { transform: scale(1.05); background: var(--primary-hover); }
+
+        .nav-toggle { display: none; }
+
+        /* Botón de Mantenimiento Nav */
+        .url-input-wrapper { position: relative; margin-top: 10px; width: 100%; }
+        .url-input-wrapper input { width: 100%; padding: 18px 20px 18px 55px; background: #05070a; border: 1px solid var(--border); border-radius: 16px; color: #fff; font-size: 13px; transition: 0.3s; font-weight: 500; }
+        .url-input-wrapper i { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 16px; }
+        .url-input-wrapper input:focus { border-color: var(--primary); background: #000; box-shadow: 0 0 20px rgba(229,9,20,0.15); }
+        .url-reference { font-size: 10px; color: var(--text-muted); margin-top: 12px; text-align: left; display: block; font-weight: 600; opacity: 0.8; letter-spacing: 0.3px; }
+
+        /* Evitar que Chrome cambie el color al autocompletar */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #05070a inset !important;
+            -webkit-text-fill-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        /* Dropdown de Administración Premium */
+        .admin-menu { position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }
+        .btn-admin { background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-admin:hover { background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(229,9,20,0.4); }
+        .dropdown-content { position: absolute; top: 100%; right: 0; background: var(--card-bg); min-width: 280px; border-radius: 24px; border: 1px solid var(--border); overflow: hidden; display: none; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.9); z-index: 10001; margin-top: -10px; }
+        .admin-menu:hover .dropdown-content { display: flex; }
+        .dropdown-content a { padding: 16px 25px; color: #fff !important; text-decoration: none !important; font-size: 13px !important; font-weight: 700 !important; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; display: flex; align-items: center; gap: 15px; }
+        .dropdown-content a i { width: 20px; color: var(--primary); text-align: center; font-size: 16px; }
+        .dropdown-content a:hover { background: rgba(255,255,255,0.05); padding-left: 30px; color: var(--primary) !important; }
+        .dropdown-content .logout-link { color: var(--error) !important; border-bottom: none; }
+        .dropdown-content .logout-link i { color: var(--error); }
+
+        /* Layout */
+        #main-panel { margin-top: var(--nav-height); min-height: calc(100vh - var(--nav-height)); display: flex; flex-direction: column; align-items: center; }
+        main { max-width: 1000px; width: 100%; padding: 40px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+
+        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+        h1 { font-size: 24px; font-weight: 900; letter-spacing: -1px; margin-bottom: 10px; }
+        p.subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 30px; }
+
+        /* Dropzone */
+        .dropzone { border: 2px dashed var(--border); border-radius: 24px; padding: 40px 20px; text-align: center; background: var(--bg); transition: 0.3s; cursor: pointer; margin-bottom: 25px; }
+        .dropzone:hover, .dropzone.active { border-color: var(--primary); background: rgba(229, 9, 20, 0.05); }
+        .dropzone i { font-size: 40px; color: var(--primary); display: block; margin-bottom: 15px; }
+        .dropzone p { font-size: 14px; color: var(--text-muted); }
+
+        /* Controls */
+        .control-group { margin-bottom: 25px; }
+        .control-group label { display: flex; justify-content: space-between; font-weight: 800; color: var(--text-muted); font-size: 11px; text-transform: uppercase; margin-bottom: 12px; }
+        .control-group label span { color: var(--primary); }
+
+        .adjustment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .adj-box { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 16px; border: 1px solid var(--border); }
+        .adj-box label { margin-bottom: 8px; font-size: 9px; }
+        .adj-box.full { grid-column: 1 / -1; }
+        .adj-box input[type="text"], .adj-box input[type="color"] { width: 100%; margin-top: 5px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: #fff; padding: 8px; font-size: 12px; }
+        .adj-box input[type="color"] { height: 35px; padding: 2px; cursor: pointer; }
+
+        input[type="range"] { width: 100%; height: 6px; background: var(--bg); border-radius: 5px; appearance: none; outline: none; }
+        input[type="range"]::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; background: var(--primary); border-radius: 50%; cursor: pointer; transition: 0.2s; }
+        input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+        .btn-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .option-btn { background: var(--bg); border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 700; transition: 0.2s; text-transform: uppercase; }
+        .option-btn:hover { border-color: var(--primary); }
+        .option-btn.active { background: var(--primary); border-color: var(--primary); }
+
+        /* Preview Area */
+        .preview-container { display: flex; flex-direction: column; align-items: center; position: sticky; top: 100px; height: fit-content; }
+        .canvas-wrapper { position: relative; width: 350px; height: 350px; background: #000; border-radius: 24px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 30px 70px rgba(0,0,0,0.8); margin-bottom: 30px; }
+        canvas { width: 100%; height: 100%; display: block; }
+        .grid-guide { position: absolute; inset: 0; pointer-events: none; border: 1px dashed rgba(255,255,255,0.1); display: none; }
+        .grid-guide::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.1); }
+        .grid-guide::after { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.1); }
+
+        .btn-download { width: 100%; background: #fff; color: #000; border: 0; padding: 20px; border-radius: 18px; font-weight: 900; font-size: 15px; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .btn-download:hover { background: var(--primary); color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(229,9,20,0.3); }
+        .btn-download:disabled { opacity: 0.3; cursor: not-allowed; transform: none !important; }
+
+        .btn-use { width: 100%; background: rgba(16,185,129,0.1); color: var(--success); border: 1px solid var(--success); padding: 18px; border-radius: 18px; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 25px; }
+        .btn-use:hover { background: var(--success); color: #fff; transform: translateY(-3px); }
+        .btn-use:disabled { opacity: 0.3; cursor: not-allowed; transform: none !important; }
+
+        .btn-back { width: 100%; font-size: 14px; color: var(--primary); font-weight: 800; text-decoration: none; border: 2px solid var(--primary); padding: 12px; border-radius: 12px; transition: 0.3s; text-align: center; }
+        .btn-back:hover { background: var(--primary); color: #fff; }
+
+        /* Auth View */
+        #auth-view { position: fixed; inset: 0; background: var(--bg); z-index: 10001; display: flex; justify-content: center; align-items: center; }
+        .auth-card { width: 400px; padding: 50px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 35px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); text-align: center; }
+        .auth-card input { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; color: #fff; margin-bottom: 15px; }
+        .status { margin-top: 15px; padding: 14px; border-radius: 12px; font-size: 13px; font-weight: 800; display: none; text-align: center; }
+        .status.error { background: rgba(239,68,68,0.1); color: var(--error); border: 1px solid var(--error); }
+        .form-group-auth { text-align: left; margin-bottom: 20px; }
+        .form-group-auth label { display: block; margin-bottom: 8px; font-size: 11px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; }
+
+        /* NovaModal Premium */
+        .nova-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 20000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .nova-modal { position: relative; background: var(--card-bg); border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 450px; padding: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); text-align: center; animation: modal-in 0.3s ease-out; }
+        @keyframes modal-in { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .nova-modal h3 { font-size: 22px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+        .nova-modal p { color: var(--text-muted); font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
+        .nova-modal-btns { display: flex; gap: 12px; }
+        .nova-modal-btn { flex: 1; padding: 15px; border-radius: 14px; border: 0; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .btn-confirm { background: var(--primary); color: #fff; }
+        .btn-cancel { background: #222; color: #fff; }
+
+        footer { padding: 60px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; width: 100%; margin-top: auto; }
+        .footer-text { font-size: 13px; color: #444; line-height: 1.8; font-weight: 600; }
+
+        /* NovaToast Styles */
+        #nova-toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 30000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .nova-toast { background: #1a1a1a; color: #fff; padding: 15px 25px; border-radius: 12px; border-left: 5px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 14px; min-width: 280px; pointer-events: auto; animation: toast-in 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; transition: 0.3s; }
+        .nova-toast.fade-out { opacity: 0; transform: translateX(100px); }
+        @keyframes toast-in { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* Responsividad Mejorada */
+        @media (max-width: 900px) {
+            html, body { height: auto !important; overflow-y: auto !important; }
+            .nav-inner { padding: 0 15px; }
+            .nav-toggle { display: flex; background: none; border: none; cursor: pointer; padding: 10px; flex-direction: column; gap: 5px; z-index: 10001; }
+            .nav-toggle span { display: block; width: 25px; height: 3px; background: #fff; transition: 0.3s; border-radius: 2px; }
+
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+                background: rgba(8, 10, 16, 0.98); backdrop-filter: blur(20px);
+                flex-direction: column; justify-content: flex-start; align-items: center;
+                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); gap: 15px; padding: 100px 40px 40px;
+                overflow-y: auto;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 18px; width: 100%; text-align: center; padding: 15px; border-radius: 15px; }
+
+            /* Ajuste del botón PANEL en móvil */
+            .admin-menu { width: 100%; height: auto; justify-content: center; padding: 0; flex-direction: column; }
+            .admin-menu.active .dropdown-content { opacity: 1; visibility: visible; display: flex; }
+            .btn-admin { width: 100%; justify-content: center; padding: 18px; font-size: 16px; border-radius: 15px; }
+            .dropdown-content { position: relative; width: 100%; top: 0; margin-top: 10px; opacity: 0; visibility: hidden; display: none; transform: none; box-shadow: none; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); }
+            .dropdown-content a { padding: 15px; font-size: 14px !important; }
+
+            .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .nav-toggle.active span:nth-child(2) { opacity: 0; }
+            .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            main { padding: 20px 15px; }
+            .preview-container { position: static; }
+            .auth-card { width: 95%; padding: 30px 20px; border-radius: 25px; }
+
+            footer { padding: 40px 15px; }
+            .footer-text { font-size: 11px; }
+        }
+
+        .hidden { display: none !important; }
+        #fileName { text-align:center; font-size:13px; font-weight:800; color:var(--success); margin-bottom:15px; display:none; }
+    </style>
+</head>
+<body>
+
+<nav class="nova-nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="https://novaplaygo.github.io/">
+            <img src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp">
+            NOVAPLAY | STUDIO
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="https://novaplaygo.github.io/" style="color: var(--primary); font-weight: 800;">INICIO</a>
+            <button class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</button>
+            <div class="admin-menu" id="adminMenu">
+                <button class="btn-admin"><i class="fas fa-user-shield"></i> PANEL</button>
+                <div class="dropdown-content">
+                    <a href="https://novaplaygo.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a>
+                    <a href="https://novaplaygo.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a>
+                    <a href="https://novaplaygo.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a>
+                    
+                    <a href="https://novaplaygo.github.io/novaimg/actualizar-icono/"><i class="fas fa-icons"></i> Gestión de Iconos</a>
+                    <a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div id="main-panel" class="hidden">
+    <main>
+        <div class="card">
+            <h1>Icon Studio</h1>
+            <p class="subtitle">Convierte cualquier logo al estándar de NovaPlay (512x512 WebP)</p>
+
+            <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Suelte el logotipo aquí o <b>busque archivo</b></p>
+                <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFile(this.files[0])">
+            </div>
+
+            <div class="control-group">
+                <label>VINCULAR URL DIRECTA</label>
+                <div class="url-input-wrapper">
+                    <i class="fas fa-link"></i>
+                    <input id="icon-source-path" name="icon-source-path" type="text" placeholder="https://dominio.com/assets/logo-ejemplo.png" oninput="handleUrl(this.value)" autocomplete="one-time-code" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" onmousedown="this.removeAttribute('readonly');">
+                </div>
+                <span class="url-reference">
+                    <i class="fas fa-info-circle" style="color: var(--primary);"></i>
+                    <b>REFERENCIA:</b> El enlace debe ser directo a la imagen (.png, .jpg, .webp).
+                </span>
+            </div>
+
+            <div id="fileName"></div>
+
+            <div class="control-group">
+                <label>Ajustes de Imagen (Pro)</label>
+                <div class="adjustment-grid">
+                    <div class="adj-box">
+                        <label>Brillo <span id="val-bright">100%</span></label>
+                        <input type="range" id="input-bright" min="50" max="150" value="100" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Contraste <span id="val-contrast">100%</span></label>
+                        <input type="range" id="input-contrast" min="50" max="150" value="100" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Saturación <span id="val-saturate">100%</span></label>
+                        <input type="range" id="input-saturate" min="0" max="200" value="100" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Redondear <span id="val-radius">0px</span></label>
+                        <input type="range" id="input-radius" min="0" max="256" value="0" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Mover X <span id="val-offset-x">0px</span></label>
+                        <input type="range" id="input-offset-x" min="-250" max="250" value="0" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Mover Y <span id="val-offset-y">0px</span></label>
+                        <input type="range" id="input-offset-y" min="-250" max="250" value="0" oninput="updateCanvas()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Texto Profesional (Opcional)</label>
+                <div class="adjustment-grid">
+                    <div class="adj-box full">
+                        <label>Contenido del Texto</label>
+                        <input type="text" id="input-canvas-text" name="input-canvas-text" placeholder="Ej: 4K, HD, LIVE..." oninput="updateCanvas()" autocomplete="one-time-code" spellcheck="false" data-lpignore="true">
+                    </div>
+                    <div class="adj-box">
+                        <label>Tamaño <span id="val-text-size">30px</span></label>
+                        <input type="range" id="input-text-size" min="10" max="150" value="30" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Color</label>
+                        <input type="color" id="input-text-color" value="#ffffff" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Posición X <span id="val-text-x">50%</span></label>
+                        <input type="range" id="input-text-x" min="0" max="512" value="256" oninput="updateCanvas()">
+                    </div>
+                    <div class="adj-box">
+                        <label>Posición Y <span id="val-text-y">85%</span></label>
+                        <input type="range" id="input-text-y" min="0" max="512" value="435" oninput="updateCanvas()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Margen del Logo (Padding) <span id="val-padding">15%</span></label>
+                <input type="range" id="input-padding" min="0" max="40" value="15" oninput="updateCanvas()">
+            </div>
+
+            <div class="control-group">
+                <label>Estilo de Fondo</label>
+                <div class="btn-grid">
+                    <button class="option-btn active" data-type="bg" data-val="black" onclick="setBg('black', this)">NEGRO</button>
+                    <button class="option-btn" data-type="bg" data-val="white" onclick="setBg('white', this)">BLANCO</button>
+                    <button class="option-btn" data-type="bg" data-val="blur" onclick="setBg('blur', this)">BLUR</button>
+                    <button class="option-btn" data-type="bg" data-val="transparent" onclick="setBg('transparent', this)">TRANS</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Guías Visuales</label>
+                <button class="option-btn" id="btn-guides" onclick="toggleGuides()" style="width:100%">MOSTRAR REJILLA DE CENTRADO</button>
+            </div>
+
+            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; text-align: justify;">
+                <b>Nota:</b> El procesador ajustará automáticamente el logo al centro, aplicará un filtro de suavizado y exportará en formato WebP de alta fidelidad.
+            </p>
+        </div>
+
+        <div class="preview-container">
+            <div class="canvas-wrapper">
+                <canvas id="mainCanvas" width="512" height="512"></canvas>
+                <div class="grid-guide" id="gridGuide"></div>
+            </div>
+
+            <button id="downloadBtn" class="btn-download" disabled onclick="downloadIcon()">
+                <i class="fas fa-download"></i> DESCARGAR LOGO .WEBP
+            </button>
+
+            <button id="useBtn" class="btn-use" disabled onclick="usarEnGestion()">
+                <i class="fas fa-paper-plane"></i> USAR EN GESTIÓN DE ICONOS
+            </button>
+
+            <a href="https://novaplaygo.github.io/novaimg/actualizar-icono/" class="btn-back">
+                <i class="fas fa-arrow-left"></i> VOLVER A GESTIÓN DE ICONOS
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-text">
+            © 2026 NOVAPLAY TV | ICON STUDIO V1.0<br>
+            © 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS
+        </div>
+    </footer>
+</div>
+
+<div id="nova-toast-container"></div>
+
+<!-- Auth View -->
+<div id="auth-view" class="hidden">
+    <div class="auth-card">
+        <h2 style="margin-bottom:30px; font-weight:900; font-size: 28px;">Acceso al Panel</h2>
+        <div class="form-group-auth">
+            <label>Usuario</label>
+            <input type="text" id="username" placeholder="Usuario Staff">
+        </div>
+        <div class="form-group-auth">
+            <label>Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+        <button class="option-btn active" id="loginButton" style="width:100%; padding: 18px; font-size: 14px;" onclick="iniciarSesion()">ENTRAR AL STUDIO</button>
+        <div id="loginStatus" class="status"></div>
+    </div>
+</div>
+
+<div class="nova-modal-overlay" id="novaModal">
+    <div class="nova-modal">
+        <h3 id="novaModalTitle" style="font-weight:900;">Confirmar</h3>
+        <p id="novaModalMessage" style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.5;"></p>
+        <div id="modalInputContainer" class="hidden">
+            <input type="text" id="modalInput" placeholder="...">
+            <select id="modalSelect" class="hidden"></select>
+        </div>
+        <div class="nova-modal-btns">
+            <button class="nova-modal-btn btn-cancel" id="novaModalCancel">CANCELAR</button>
+            <button class="nova-modal-btn btn-confirm" id="novaModalConfirm">ACEPTAR</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = "https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-canales";
+    const canvas = document.getElementById('mainCanvas');
+    const ctx = canvas.getContext('2d', { alpha: true });
+    let sessionToken = localStorage.getItem("novaplay_session_token") || "";
+    let currentImage = null;
+    let bgStyle = 'black';
+    let showGuides = false;
+
+    function novaToast(message, type = 'info') {
+        const container = document.getElementById('nova-toast-container');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = `nova-toast ${type}`;
+        let icon = 'ðŸ””';
+        if (type === 'success') icon = '✅';
+        if (type === 'error') icon = '❌';
+        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.add('fade-out');
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
+
+    // --- Auth Logic ---
+    async function req(body) {
+        const h = { "Content-Type": "application/json" };
+        if (sessionToken) h.Authorization = "Bearer " + sessionToken;
+        try {
+            const r = await fetch(API_URL, { method: "POST", headers: h, body: JSON.stringify(body) });
+            const d = await r.json();
+            if (r.status === 401) cerrarSesion();
+            return d;
+        } catch (e) { return { error: "Red" }; }
+    }
+
+    function UI_MostrarPanel() {
+        document.getElementById("auth-view").classList.add("hidden");
+        document.getElementById("main-panel").classList.remove("hidden");
+        document.getElementById("navLogin").style.display = 'none';
+        document.getElementById("adminMenu").style.display = 'flex';
+    }
+
+    function UI_MostrarLogin() {
+        document.getElementById("auth-view").classList.remove("hidden");
+        document.getElementById("main-panel").classList.add("hidden");
+        document.getElementById("navLogin").style.display = 'block';
+        document.getElementById("adminMenu").style.display = 'none';
+    }
+
+    async function iniciarSesion() {
+        const u = document.getElementById("username").value.trim();
+        const p = document.getElementById("password").value.trim();
+        const btn = document.getElementById("loginButton");
+        if (!u || !p) return;
+        btn.disabled = true; btn.innerText = "VERIFICANDO...";
+
+        const res = await req({ action: "login", username: u, password: p });
+        if (res.token) {
+            sessionToken = res.token;
+            localStorage.setItem("novaplay_session_token", res.token);
+            location.reload();
+        } else {
+            const el = document.getElementById("loginStatus");
+            el.className = "status error";
+            el.textContent = "Acceso denegado.";
+            el.style.display = "block";
+            btn.disabled = false;
+            btn.textContent = 'ENTRAR AL STUDIO';
+        }
+    }
+
+    function restaurarSesion() {
+        if (sessionToken) UI_MostrarPanel();
+        else UI_MostrarLogin();
+    }
+
+    function cerrarSesion() {
+        openModal("Cerrar Sesión", "¿Estás seguro que deseas salir del Studio?", () => {
+            localStorage.removeItem("novaplay_session_token");
+            location.reload();
+        });
+    }
+
+    // Toggle Menú Móvil
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const adminMenu = document.getElementById('adminMenu');
+    const btnAdmin = document.querySelector('.btn-admin');
+
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    }
+
+    // Toggle Dropdown en Móvil
+    if (btnAdmin) {
+        btnAdmin.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900) {
+                e.preventDefault();
+                adminMenu.classList.toggle('active');
+            }
+        });
+    }
+
+    // Cerrar menú al clickear link (móvil)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navToggle) navToggle.classList.remove('active');
+            if (navLinks) navLinks.classList.remove('active');
+        });
+    });
+
+    /* NovaModal Premium */
+    function openModal(title, msg, onConfirm, type = "confirm", options = [], defaultValue = "") {
+        const m = document.getElementById("novaModal");
+        if (!m) return;
+        document.getElementById("novaModalTitle").innerText = title;
+        document.getElementById("novaModalMessage").innerText = msg;
+        const inputContainer = document.getElementById("modalInputContainer");
+        const input = document.getElementById("modalInput");
+        const select = document.getElementById("modalSelect");
+
+        if (inputContainer) inputContainer.classList.add("hidden");
+        if (input) input.classList.add("hidden");
+        if (select) select.classList.add("hidden");
+
+        if (type === "prompt") {
+            if (inputContainer) inputContainer.classList.remove("hidden");
+            if (input) {
+                input.classList.remove("hidden");
+                input.value = defaultValue;
+                setTimeout(() => input.focus(), 100);
+            }
+        } else if (type === "select") {
+            if (inputContainer) inputContainer.classList.remove("hidden");
+            if (select) {
+                select.classList.remove("hidden");
+                select.innerHTML = options.map(o => `<option value="${o.value}">${o.text}</option>`).join('');
+                setTimeout(() => select.focus(), 100);
+            }
+        }
+
+        m.style.display = "flex";
+
+        const close = () => { m.style.display = "none"; };
+        document.getElementById("novaModalCancel").onclick = close;
+        document.getElementById("novaModalConfirm").onclick = () => {
+            if (type === "prompt") onConfirm(input.value);
+            else if (type === "select") onConfirm(select.value);
+            else onConfirm();
+            close();
+        };
+    }
+
+    let urlLoadTimeout = null;
+    function handleUrl(url) {
+        if (!url) return;
+
+        clearTimeout(urlLoadTimeout);
+        urlLoadTimeout = setTimeout(() => {
+            const cleanUrl = url.trim();
+            if (!cleanUrl.startsWith("http")) return;
+
+            novaToast("Cargando imagen desde URL...", "info");
+
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+
+            img.onload = () => {
+                currentImage = img;
+                updateCanvas();
+                document.getElementById('downloadBtn').disabled = false;
+                document.getElementById('useBtn').disabled = false;
+                document.getElementById('fileInput').value = "";
+                document.getElementById('fileName').style.display = "none";
+                novaToast("Imagen cargada con éxito", "success");
+            };
+
+            img.onerror = () => {
+                novaToast("Error: No se pudo cargar la imagen. Verifique el enlace o permisos CORS.", "error");
+            };
+
+            img.src = cleanUrl;
+        }, 800);
+    }
+
+    // Drag & Drop
+    const dropzone = document.getElementById('dropzone');
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+        dropzone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); });
+    });
+    dropzone.addEventListener('dragover', () => dropzone.classList.add('active'));
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('active'));
+    dropzone.addEventListener('drop', e => {
+        dropzone.classList.remove('active');
+        handleFile(e.dataTransfer.files[0]);
+    });
+
+    function handleFile(file) {
+        if (!file || !file.type.startsWith('image/')) {
+            novaToast("Error: Formato de archivo no válido", "error");
+            return;
+        }
+
+        novaToast("Procesando archivo local...", "info");
+
+        const reader = new FileReader();
+        reader.onload = e => {
+            const img = new Image();
+            img.onload = () => {
+                currentImage = img;
+                updateCanvas();
+                document.getElementById('downloadBtn').disabled = false;
+                document.getElementById('useBtn').disabled = false;
+                const urlInput = document.getElementById('icon-source-path');
+                if (urlInput) urlInput.value = "";
+                novaToast("Archivo cargado con éxito", "success");
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+        const nameEl = document.getElementById("fileName");
+        nameEl.textContent = `✅ ARCHIVO: ${file.name}`;
+        nameEl.style.display = "block";
+    }
+
+    function setBg(val, btn) {
+        bgStyle = val;
+        document.querySelectorAll('[data-type="bg"]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateCanvas();
+    }
+
+    function toggleGuides() {
+        showGuides = !showGuides;
+        document.getElementById('gridGuide').style.display = showGuides ? 'block' : 'none';
+        document.getElementById('btn-guides').classList.toggle('active', showGuides);
+    }
+
+    function updateCanvas() {
+        if (!currentImage) return;
+
+        const paddingPercent = parseInt(document.getElementById('input-padding').value);
+        document.getElementById('val-padding').innerText = paddingPercent + "%";
+
+        // Filtros Pro - Verificando existencia antes de acceder
+        const brightEl = document.getElementById('input-bright');
+        const contrastEl = document.getElementById('input-contrast');
+        const saturateEl = document.getElementById('input-saturate');
+        const radiusEl = document.getElementById('input-radius');
+        const offsetXEl = document.getElementById('input-offset-x');
+        const offsetYEl = document.getElementById('input-offset-y');
+
+        if (!brightEl || !contrastEl || !saturateEl || !radiusEl || !offsetXEl || !offsetYEl) return;
+
+        const bright = brightEl.value;
+        const contrast = contrastEl.value;
+        const saturate = saturateEl.value;
+        const radius = radiusEl.value;
+        const offsetX = parseInt(offsetXEl.value);
+        const offsetY = parseInt(offsetYEl.value);
+
+        document.getElementById('val-bright').innerText = bright + "%";
+        document.getElementById('val-contrast').innerText = contrast + "%";
+        document.getElementById('val-saturate').innerText = saturate + "%";
+        document.getElementById('val-radius').innerText = radius + "px";
+        document.getElementById('val-offset-x').innerText = offsetX + "px";
+        document.getElementById('val-offset-y').innerText = offsetY + "px";
+
+        // Datos de Texto
+        const textContent = document.getElementById('input-canvas-text').value.trim();
+        const textSize = document.getElementById('input-text-size').value;
+        const textColor = document.getElementById('input-text-color').value;
+        const textX = document.getElementById('input-text-x').value;
+        const textY = document.getElementById('input-text-y').value;
+
+        document.getElementById('val-text-size').innerText = textSize + "px";
+        document.getElementById('val-text-x').innerText = Math.round((textX / 512) * 100) + "%";
+        document.getElementById('val-text-y').innerText = Math.round((textY / 512) * 100) + "%";
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 1. Draw Background
+        ctx.save();
+        if (bgStyle === 'black') {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        } else if (bgStyle === 'white') {
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        } else if (bgStyle === 'blur') {
+            ctx.save();
+            ctx.filter = 'blur(30px) brightness(0.6)';
+            ctx.drawImage(currentImage, -50, -50, canvas.width + 100, canvas.height + 100);
+            ctx.restore();
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        ctx.restore();
+
+        // 2. Calculate Proportions
+        const padding = (canvas.width * paddingPercent) / 100;
+        const maxWidth = canvas.width - (padding * 2);
+        const maxHeight = canvas.height - (padding * 2);
+
+        let drawWidth = currentImage.width;
+        let drawHeight = currentImage.height;
+        const ratio = Math.min(maxWidth / drawWidth, maxHeight / drawHeight);
+
+        drawWidth *= ratio;
+        drawHeight *= ratio;
+
+        const x = (canvas.width - drawWidth) / 2 + offsetX;
+        const y = (canvas.height - drawHeight) / 2 + offsetY;
+
+        // 3. Draw Image with Filters & Radius
+        ctx.save();
+
+        if (parseInt(radius) > 0) {
+            ctx.beginPath();
+            // Fallback para navegadores antiguos sin roundRect
+            if (ctx.roundRect) {
+                ctx.roundRect(0, 0, canvas.width, canvas.height, parseInt(radius));
+            } else {
+                ctx.rect(0, 0, canvas.width, canvas.height);
+            }
+            ctx.clip();
+        }
+
+        ctx.filter = `brightness(${bright}%) contrast(${contrast}%) saturate(${saturate}%)`;
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(currentImage, x, y, drawWidth, drawHeight);
+        ctx.restore();
+
+        // 4. Draw Professional Text Overlay
+        if (textContent !== "") {
+            ctx.save();
+            ctx.font = `900 ${textSize}px Inter`;
+            ctx.fillStyle = textColor;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            // Sombra profesional para legibilidad
+            ctx.shadowColor = "rgba(0,0,0,0.8)";
+            ctx.shadowBlur = 15;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 4;
+
+            // Borde sutil
+            ctx.strokeStyle = "rgba(0,0,0,0.5)";
+            ctx.lineWidth = parseInt(textSize) / 15;
+            ctx.strokeText(textContent, textX, textY);
+
+            ctx.fillText(textContent, textX, textY);
+            ctx.restore();
+        }
+    }
+
+    function downloadIcon() {
+        if (!currentImage) return;
+        const randomId = Math.random().toString(36).substring(2, 10);
+        const link = document.createElement('a');
+        link.download = `icon_${randomId}.webp`;
+        link.href = canvas.toDataURL('image/webp', 0.9);
+        link.click();
+    }
+
+    function usarEnGestion() {
+        if (!currentImage) return;
+        const dataUrl = canvas.toDataURL('image/webp', 0.9);
+        localStorage.setItem('pending_studio_icon', dataUrl);
+        window.location.href = "../actualizar-icono/";
+    }
+
+    document.getElementById("password").addEventListener("keydown", e => { if (e.key === "Enter") iniciarSesion(); });
+    ctx.fillStyle = '#080a10'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#1a1f2e'; ctx.font = '800 20px Inter'; ctx.textAlign = 'center'; ctx.fillText('VISTA PREVIA', canvas.width/2, canvas.height/2);
+    restaurarSesion();
+</script>
+</body>
+</html>

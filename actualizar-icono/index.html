@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NOVAPLAY | GESTIÓN DE ICONOS</title>
+    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e50914;
+            --primary-hover: #b91c1c;
+            --bg: #080a10;
+            --card-bg: #11151f;
+            --input-bg: #1a1f2e;
+            --text: #ffffff;
+            --text-muted: #9aa3b2;
+            --border: #293246;
+            --success: #10b981;
+            --error: #ef4444;
+            --nav-height: 70px;
+        }
+
+        * { box-sizing: border-box; outline: none; margin: 0; padding: 0; }
+        html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+        /* Navegación Premium */
+        .nova-nav { position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .nav-inner { max-width: 1400px; margin: auto; height: var(--nav-height); padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px; }
+        .nav-brand img { width: 36px; height: 32px; border-radius: 8px; }
+
+        .nav-links { display: flex; gap: 15px; align-items: center; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; padding: 10px 15px; border-radius: 10px; }
+        .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+
+        .btn-login-nav, .btn-logout {
+            background: var(--primary);
+            color: #fff !important;
+            font-weight: 800 !important;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            display: none;
+            transition: 0.2s;
+        }
+        .btn-login-nav:hover { transform: scale(1.05); background: var(--primary-hover); }
+        .btn-logout { display: none; background: var(--error); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); }
+        .btn-logout:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+        .nav-toggle { display: none; }
+
+        /* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
+        .admin-menu { position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }
+        .btn-admin { background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }
+        .btn-admin:hover { background: var(--primary); color: #fff; box-shadow: 0 0 20px rgba(229,9,20,0.4); }
+        .dropdown-content { position: absolute; top: 100%; right: 0; background: var(--card-bg); min-width: 280px; border-radius: 24px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.9); z-index: 10001; margin-top: -10px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.3s; }
+        .admin-menu:hover .dropdown-content { opacity: 1; visibility: visible; transform: translateY(0); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0s; }
+        .dropdown-content::before { content: ''; position: absolute; top: -50px; left: -50px; right: -50px; height: 100px; background: transparent; z-index: -1; }
+        .dropdown-content a { padding: 16px 25px; color: #fff !important; text-decoration: none !important; font-size: 13px !important; font-weight: 700 !important; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; display: flex; align-items: center; gap: 15px; }
+        .dropdown-content a i { width: 20px; color: var(--primary); text-align: center; font-size: 16px; }
+        .dropdown-content a:hover { background: rgba(255,255,255,0.05); padding-left: 30px; color: var(--primary) !important; }
+        .dropdown-content .logout-link { color: var(--error) !important; border-bottom: none; }
+        .dropdown-content .logout-link i { color: var(--error); }
+
+
+        /* Main Content */
+        main { max-width: 900px; margin: auto; padding: calc(var(--nav-height) + 40px) 20px 40px; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 35px; border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); width: 100%; }
+
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .section-header h2 { margin: 0; font-size: 18px; font-weight: 700; }
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .btn-action-small { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-action-small:hover { background: var(--primary); border-color: var(--primary); }
+        .btn-action-small.active { background: var(--primary); border-color: var(--primary); }
+
+        .search-box { margin-bottom: 20px; position: relative; }
+        .search-box input { width: 100%; padding: 16px 18px 16px 48px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 14px; color: #fff; font-size: 15px; transition: 0.2s; }
+        .search-box::before { content: "🔍"; position: absolute; left: 18px; top: 50%; transform: translateY(-50%); opacity: 0.5; font-size: 16px; }
+        .search-box input:focus { border-color: var(--primary); background: #1f2536; }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #080a10;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+        .channel-grid::-webkit-scrollbar { width: 6px; }
+        .channel-grid::-webkit-scrollbar-track { background: transparent; }
+        .channel-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+        .channel-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .channel-card:hover { border-color: var(--primary); transform: translateY(-2px); background: rgba(255,255,255,0.02); }
+        .channel-card.selected { border-color: var(--primary); background: rgba(229,9,20,0.1); box-shadow: 0 0 15px rgba(229,9,20,0.2); }
+        .channel-card img { width: 50px; height: 50px; object-fit: contain; border-radius: 10px; background: #000; padding: 3px; }
+        .channel-card span { font-size: 12px; font-weight: 700; color: #fff; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* Channel number removed as requested */
+        /* .channel-card .num { position: absolute; top: 6px; right: 10px; font-size: 9px; color: var(--text-muted); font-weight: 700; } */
+
+        /* Dropzone */
+        .dropzone { border: 2px dashed var(--border); border-radius: 24px; padding: 50px 20px; text-align: center; background: var(--input-bg); transition: 0.3s; cursor: pointer; margin-bottom: 25px; }
+        .dropzone:hover, .dropzone.active { border-color: var(--primary); background: rgba(229, 9, 20, 0.05); }
+        .dropzone .icon { font-size: 36px; display: block; margin-bottom: 15px; }
+        .dropzone p { margin: 0; color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+        .dropzone b { color: #fff; text-decoration: underline; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 10px; font-weight: 900; color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; }
+        input, select { width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: #fff; padding: 16px 20px; border-radius: 14px; font-size: 15px; transition: 0.2s; }
+        input:focus { border-color: var(--primary); }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--primary);
+            color: #fff;
+            border: 0;
+            padding: 20px;
+            border-radius: 16px;
+            font-weight: 900;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(229,9,20,0.2);
+        }
+        .btn-primary:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 15px 35px rgba(229,9,20,0.4); }
+        .btn-primary:active { transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Preview Area */
+        .comparison { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 30px; margin: 30px 0; padding: 30px; background: #080a10; border-radius: 24px; border: 1px solid var(--border); }
+        .comp-box { text-align: center; }
+        .comp-box span { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .comp-box img { width: 110px; height: 110px; object-fit: contain; border-radius: 18px; background: #000; border: 1px solid var(--border); padding: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .comp-arrow { font-size: 28px; color: var(--primary); font-weight: bold; }
+
+        /* Auth View */
+        #auth-view { position: fixed; inset: 0; background: var(--bg); z-index: 10001; display: flex; justify-content: center; align-items: center; }
+        .auth-card { width: 400px; padding: 50px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 35px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); text-align: center; }
+        .status { margin-top: 15px; padding: 14px; border-radius: 12px; font-size: 13px; font-weight: 800; display: none; text-align: center; }
+        .status.error { background: rgba(239,68,68,0.1); color: var(--error); border: 1px solid var(--error); }
+
+        /* Toast Notification System */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 30000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast-msg {
+            pointer-events: auto;
+            min-width: 300px;
+            max-width: 450px;
+            background: rgba(17, 21, 31, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 16px 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: toast-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toast-msg::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .toast-msg.success::before { background: var(--success); }
+        .toast-msg.error::before { background: var(--error); }
+        .toast-msg.info::before { background: var(--primary); }
+
+        .toast-content {
+            flex-grow: 1;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toast-close:hover { color: #fff; }
+
+        @keyframes toast-in {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast-out {
+            transform: translateX(120%);
+            opacity: 0;
+        }
+
+        .hidden { display: none !important; }
+
+        /* NovaModal Premium */
+        .nova-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 20000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .nova-modal { position: relative; background: var(--card-bg); border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 450px; padding: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); text-align: center; animation: modal-in 0.3s ease-out; }
+        @keyframes modal-in { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .nova-modal h3 { font-size: 22px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+        .nova-modal p { color: var(--text-muted); font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
+        .nova-modal input { width: 100%; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; color: #fff; margin-bottom: 20px; font-size: 15px; }
+        .nova-modal-btns { display: flex; gap: 12px; }
+        .nova-modal-btn { flex: 1; padding: 15px; border-radius: 14px; border: 0; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .btn-confirm { background: var(--primary); color: #fff; }
+        .btn-cancel { background: #222; color: #fff; }
+        .nova-modal-btn:hover { transform: scale(1.03); }
+
+        footer { padding: 60px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
+        .footer-text { font-size: 13px; color: #444; line-height: 1.8; font-weight: 600; }
+
+        @media (max-width: 900px) {
+            html, body { height: auto !important; overflow-y: auto !important; }
+            .nav-inner { padding: 0 15px; }
+            .nav-toggle { display: flex; background: none; border: none; cursor: pointer; padding: 10px; flex-direction: column; gap: 5px; z-index: 10001; }
+            .nav-toggle span { display: block; width: 25px; height: 3px; background: #fff; transition: 0.3s; border-radius: 2px; }
+
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+                background: rgba(8, 10, 16, 0.98); backdrop-filter: blur(20px);
+                flex-direction: column; justify-content: flex-start; align-items: center;
+                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); gap: 15px; padding: 100px 40px 40px;
+                overflow-y: auto;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 18px; width: 100%; text-align: center; padding: 15px; border-radius: 15px; }
+
+            /* Ajuste del botón PANEL en móvil */
+            .admin-menu { width: 100%; height: auto; justify-content: center; padding: 0; flex-direction: column; }
+            .admin-menu.active .dropdown-content { opacity: 1; visibility: visible; display: flex; }
+            .btn-admin { width: 100%; justify-content: center; padding: 18px; font-size: 16px; border-radius: 15px; }
+            .dropdown-content { position: relative; width: 100%; top: 0; margin-top: 10px; opacity: 0; visibility: hidden; display: none; transform: none; box-shadow: none; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); }
+            .dropdown-content a { padding: 15px; font-size: 14px !important; }
+
+            .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .nav-toggle.active span:nth-child(2) { opacity: 0; }
+            .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            main { padding: calc(var(--nav-height) + 20px) 15px 30px; }
+            .card { padding: 25px; border-radius: 22px; }
+            .channel-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); padding: 10px; }
+            .comparison { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+            .comp-arrow { transform: rotate(90deg); margin: 0 auto; }
+            .auth-card { width: 95%; padding: 35px; border-radius: 28px; }
+
+            #toast-container { bottom: 10px; right: 10px; left: 10px; }
+            .toast-msg { min-width: 0; width: 100%; }
+
+            footer { padding: 40px 15px; }
+            .footer-text { font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nova-nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="https://novaplaygo.github.io/">
+            <img src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp">
+            NOVAPLAY | GESTIÓN
+        </a>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="nav-links" id="navLinks">
+            <a href="https://novaplaygo.github.io/" style="color: var(--primary); font-weight: 800;">INICIO</a>
+            <button class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</button>
+            <div class="admin-menu" id="adminMenu">
+                <button class="btn-admin"><i class="fas fa-user-shield"></i> PANEL</button>
+                <div class="dropdown-content">
+                    <a href="https://novaplaygo.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a>
+                    <a href="https://novaplaygo.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a>
+                    <a href="https://novaplaygo.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a>
+                    
+                    <a href="https://novaplaygo.github.io/novaimg/actualizar-icono/"><i class="fas fa-icons"></i> Gestión de Iconos</a>
+                    <a href="https://novaplaygo.github.io/novaimg/generador/"><i class="fas fa-magic"></i> Icon Studio</a>
+                    <a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Auth View -->
+<div id="auth-view" class="hidden">
+    <div class="auth-card">
+        <h2 style="margin-bottom:30px; font-weight:900; font-size: 28px;">Acceso al Panel</h2>
+        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 11px; font-weight: 900; color: var(--text-muted); text-transform: uppercase;">Usuario</label>
+            <input type="text" id="username" placeholder="Usuario Staff">
+        </div>
+        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 11px; font-weight: 900; color: var(--text-muted); text-transform: uppercase;">Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+        <button class="btn-primary" id="loginButton" style="width:100%; justify-content:center; padding: 18px;" onclick="iniciarSesion()">ENTRAR A GESTIÓN</button>
+        <div id="loginStatus" class="status"></div>
+    </div>
+</div>
+
+<script>
+    if (localStorage.getItem("novaplay_session_token")) {
+        document.getElementById("auth-view").classList.add("hidden");
+    }
+</script>
+
+<main>
+    <div class="card">
+        <div style="margin-bottom: 35px; border-bottom: 1px solid var(--border); padding-bottom: 25px; text-align: center;">
+            <h1 style="font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px;">Gestión de Iconos</h1>
+            <p style="color: var(--text-muted); font-size: 15px; font-weight: 500;">Sube y actualiza los logos de los canales en tiempo real</p>
+        </div>
+
+        <div class="section-header">
+            <h2>1. Selecciona los Canales</h2>
+            <div class="header-actions">
+                <button class="btn-action-small" onclick="seleccionarTodoFiltrado()">SELECCIONAR FILTRADOS</button>
+                <button class="btn-action-small" onclick="limpiarSeleccion()">LIMPIAR</button>
+                <a href="https://novaplaygo.github.io/novaimg/" target="_blank" style="font-size: 12px; color: var(--primary); font-weight: 700; text-decoration: none; margin-left: 10px;">
+                    👁️ VER GALERÍA
+                </a>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="channelSearch" placeholder="Escribe el nombre del canal..." oninput="filtrarCanales()">
+        </div>
+
+        <div class="channel-grid" id="channelGrid">
+            <!-- Dynamic Channels -->
+        </div>
+
+        <h2 style="font-size: 18px; margin: 30px 0 15px;">2. Nueva Imagen del Icono</h2>
+
+        <div class="dropzone" id="dropzone" onclick="document.getElementById('imagenArchivo').click()">
+            <span class="icon">📁</span>
+            <p><b>Haz clic para subir</b> o arrastra una imagen<br>
+            <small style="opacity:0.6;">Formatos: PNG, JPG, WEBP (Recomendado 512x512)</small></p>
+            <input type="file" id="imagenArchivo" accept="image/*" style="display:none;" onchange="seleccionarArchivo()">
+        </div>
+
+        <div id="fileName" style="text-align:center; font-size:13px; font-weight:800; color:var(--success); margin-bottom:15px; display:none;"></div>
+
+        <div class="form-group">
+            <label>O vincula una URL directa</label>
+            <input id="imagenUrl" type="url" placeholder="https://ejemplo.com/icono.webp" oninput="verImagenUrl()">
+        </div>
+
+        <div class="comparison" id="previewArea" style="display:none;">
+            <div class="comp-box" id="currentIconBox">
+                <span>Actual en TV</span>
+                <img id="currentIcon" src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp" onerror="this.src='https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp'" alt="Actual">
+            </div>
+            <div class="comp-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="comp-box">
+                <span>Nuevo Diseño</span>
+                <img id="newIcon" src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp" onerror="this.src='https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp'" alt="Nuevo">
+            </div>
+        </div>
+
+        <button class="btn-primary" id="updateButton" onclick="actualizarIcono()" style="margin-top:10px;">
+            🚀 PUBLICAR ACTUALIZACIÓN
+        </button>
+
+        <div id="status" class="status"></div>
+    </div>
+</main>
+
+<div class="nova-modal-overlay" id="novaModal">
+    <div class="nova-modal">
+        <h3 id="novaModalTitle" style="font-weight:900;">Confirmar</h3>
+        <p id="novaModalMessage" style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.5;"></p>
+        <div id="modalInputContainer" class="hidden">
+            <input type="text" id="modalInput" placeholder="...">
+            <select id="modalSelect" class="hidden"></select>
+        </div>
+        <div class="nova-modal-btns">
+            <button class="nova-modal-btn btn-cancel" id="novaModalCancel">CANCELAR</button>
+            <button class="nova-modal-btn btn-confirm" id="novaModalConfirm">ACEPTAR</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-text">
+        © 2026 NOVAPLAY TV<br>
+        © 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS
+    </div>
+</footer>
+
+<div id="toast-container"></div>
+
+<script>
+    const API_URL_AUTH = 'https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-canales';
+    const API_URL_ICON = 'https://mrghnngupolsgatcmevw.supabase.co/functions/v1/actualizar-icono';
+    const CATALOGO_URL = '../index.html';
+
+    let sessionToken = localStorage.getItem("novaplay_session_token") || "";
+    let canalesSeleccionados = []; // Array de nombres de archivo (.webp)
+    let listaCanales = [];
+
+    // --- NovaToast System ---
+    function novaToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast-msg ${type}`;
+
+        let icon = 'fa-check-circle';
+        if (type === 'error') icon = 'fa-exclamation-circle';
+        if (type === 'info') icon = 'fa-info-circle';
+
+        toast.innerHTML = `
+            <i class="fas ${icon}" style="color: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--error)' : 'var(--primary)'}"></i>
+            <div class="toast-content">${message}</div>
+            <button class="toast-close" onclick="this.parentElement.classList.add('toast-out'); setTimeout(() => this.parentElement.remove(), 300)">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.classList.add('toast-out');
+                setTimeout(() => toast.remove(), 300);
+            }
+        }, 5000);
+    }
+
+    // --- Auth Logic ---
+    function mostrarEstado(id, tipo, mensaje) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.className = "status " + tipo;
+        el.textContent = mensaje;
+        el.style.display = "block";
+    }
+
+    async function fetchJSON(body, usarSesion = false) {
+        const headers = { "Content-Type": "application/json" };
+        if (usarSesion && sessionToken) headers.Authorization = "Bearer " + sessionToken;
+        try {
+            const response = await fetch(API_URL_AUTH, {
+                method: "POST",
+                headers,
+                body: JSON.stringify(body)
+            });
+            const data = await response.json().catch(() => ({ error: "Respuesta inválida." }));
+            return { response, data };
+        } catch (e) {
+            return { response: { ok: false }, data: { error: "Error de red." } };
+        }
+    }
+
+    async function restaurarSesion() {
+        if (sessionToken) {
+            UI_MostrarPanel();
+            await cargarCanales();
+        } else {
+            UI_MostrarLogin();
+        }
+    }
+
+    function UI_MostrarPanel() {
+        document.getElementById("auth-view").classList.add("hidden");
+        const navLogin = document.getElementById("navLogin");
+        const adminMenu = document.getElementById("adminMenu");
+        if(navLogin) navLogin.style.display = 'none';
+        if(adminMenu) adminMenu.style.display = 'flex';
+    }
+
+    function UI_MostrarLogin() {
+        document.getElementById("auth-view").classList.remove("hidden");
+        const navLogin = document.getElementById("navLogin");
+        const adminMenu = document.getElementById("adminMenu");
+        if(navLogin) navLogin.style.display = 'flex';
+        if(adminMenu) adminMenu.style.display = 'none';
+    }
+
+    async function iniciarSesion() {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const btn = document.getElementById("loginButton");
+
+        if (!username || !password) return;
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> VERIFICANDO...';
+
+        const { response, data } = await fetchJSON({ action: "login", username, password });
+
+        if (response.ok && data.token) {
+            sessionToken = data.token;
+            localStorage.setItem("novaplay_session_token", sessionToken);
+            UI_MostrarPanel();
+            await cargarCanales();
+        } else {
+            const el = document.getElementById("loginStatus");
+            if (el) {
+                el.className = "status error";
+                el.textContent = data.error || "Acceso denegado.";
+                el.style.display = "block";
+            }
+            btn.disabled = false;
+            btn.textContent = 'ENTRAR A GESTIÓN';
+        }
+    }
+
+    function cerrarSesion() {
+        openModal("Cerrar Sesión", "¿Estás seguro que deseas salir de la Gestión de Iconos?", () => {
+            localStorage.removeItem("novaplay_session_token");
+            location.reload();
+        });
+    }
+
+    /* NovaModal Premium */
+    function openModal(title, msg, onConfirm, type = "confirm", options = [], defaultValue = "") {
+        const m = document.getElementById("novaModal");
+        if (!m) return;
+        document.getElementById("novaModalTitle").innerText = title;
+        document.getElementById("novaModalMessage").innerText = msg;
+        const inputContainer = document.getElementById("modalInputContainer");
+        const input = document.getElementById("modalInput");
+        const select = document.getElementById("modalSelect");
+
+        if (inputContainer) inputContainer.classList.add("hidden");
+        if (input) input.classList.add("hidden");
+        if (select) select.classList.add("hidden");
+
+        if (type === "prompt") {
+            if (inputContainer) inputContainer.classList.remove("hidden");
+            if (input) {
+                input.classList.remove("hidden");
+                input.value = defaultValue;
+                setTimeout(() => input.focus(), 100);
+            }
+        } else if (type === "select") {
+            if (inputContainer) inputContainer.classList.remove("hidden");
+            if (select) {
+                select.classList.remove("hidden");
+                select.innerHTML = options.map(o => `<option value="${o.value}">${o.text}</option>`).join('');
+                setTimeout(() => select.focus(), 100);
+            }
+        }
+
+        m.style.display = "flex";
+
+        const close = () => { m.style.display = "none"; };
+        document.getElementById("novaModalCancel").onclick = close;
+        document.getElementById("novaModalConfirm").onclick = () => {
+            if (type === "prompt") onConfirm(input.value);
+            else if (type === "select") onConfirm(select.value);
+            else onConfirm();
+            close();
+        };
+    }
+
+    // --- Icon Manager Logic ---
+    async function cargarCanales() {
+        const grid = document.getElementById("channelGrid");
+        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:#666; font-weight:600;"><i class="fas fa-sync fa-spin"></i> Cargando catálogo...</div>';
+        try {
+            const r = await fetch(CATALOGO_URL, { cache: "no-store" });
+            const html = await r.text();
+            const doc = new DOMParser().parseFromString(html, "text/html");
+            const cards = doc.querySelectorAll(".card");
+            listaCanales = [];
+
+            cards.forEach(card => {
+                const nameEl = card.querySelector("h2");
+                const numEl = card.querySelector(".channel-number");
+                const imgEl = card.querySelector("img");
+
+                if (!nameEl || !imgEl) return;
+
+                const name = nameEl.textContent.trim();
+                const num = numEl ? numEl.textContent.replace(/CANAL/gi, "").trim() : "—";
+                const src = imgEl.getAttribute("src");
+
+                // Regex más robusto para extraer el nombre del archivo
+                // Busca lo que esté entre 'icons/' y un posible '?' o el final del string
+                const match = src?.match(/icons\/([^?#]+)/i);
+
+                if (name && match) {
+                    const fileName = match[1];
+                    listaCanales.push({
+                        name: name,
+                        num: num,
+                        file: fileName,
+                        icon: "https://novaplaygo.github.io/novaimg/icons/" + fileName
+                    });
+                }
+            });
+
+            if(listaCanales.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--error);">Catálogo vacío.</div>';
+            } else {
+                renderGrid(listaCanales);
+            }
+        } catch (e) {
+            grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--error);">Error de carga del catálogo.</div>';
+        }
+    }
+
+    function renderGrid(canales) {
+        const grid = document.getElementById("channelGrid");
+        grid.innerHTML = "";
+        canales.forEach(c => {
+            const div = document.createElement("div");
+            div.className = "channel-card";
+            if (canalesSeleccionados.includes(c.file)) div.classList.add("selected");
+
+            div.innerHTML = `
+                <img src="${c.icon}" onerror="this.src='https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp'">
+                <span>${c.name}</span>
+            `;
+            div.onclick = () => seleccionarCanal(c);
+            grid.appendChild(div);
+        });
+    }
+
+    function filtrarCanales() {
+        const query = document.getElementById("channelSearch").value.toLowerCase();
+        const filtrados = listaCanales.filter(c =>
+            c.name.toLowerCase().includes(query) ||
+            c.num.toLowerCase().includes(query)
+        );
+        renderGrid(filtrados);
+    }
+
+    function seleccionarCanal(canal) {
+        const index = canalesSeleccionados.indexOf(canal.file);
+        if (index > -1) {
+            canalesSeleccionados.splice(index, 1);
+        } else {
+            canalesSeleccionados.push(canal.file);
+        }
+
+        // Actualizar visual de tarjetas
+        renderGridActual();
+
+        const updateBtn = document.getElementById("updateButton");
+        const currentIconBox = document.getElementById("currentIconBox");
+
+        if (canalesSeleccionados.length > 0) {
+            updateBtn.innerHTML = `🚀 PUBLICAR EN ${canalesSeleccionados.length} CANALES`;
+            currentIconBox.style.display = "block";
+
+            // Mostrar el icono del primer canal seleccionado como referencia
+            const firstCanal = listaCanales.find(c => c.file === canalesSeleccionados[0]);
+            if (firstCanal) {
+                document.getElementById("currentIcon").src = firstCanal.icon;
+                document.getElementById("previewArea").style.display = "grid";
+            }
+        } else {
+            updateBtn.innerHTML = "🚀 PUBLICAR ACTUALIZACIÓN";
+            // Si hay una imagen cargada pero no canales, solo ocultamos el "Actual"
+            if (document.getElementById("newIcon").src.startsWith("data:") || document.getElementById("imagenUrl").value) {
+                currentIconBox.style.display = "none";
+            } else {
+                document.getElementById("previewArea").style.display = "none";
+            }
+        }
+
+        if(window.innerWidth < 768 && canalesSeleccionados.length === 1) {
+             document.getElementById("dropzone").scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    function seleccionarTodoFiltrado() {
+        const query = document.getElementById("channelSearch").value.toLowerCase();
+        const filtrados = listaCanales.filter(c =>
+            c.name.toLowerCase().includes(query) ||
+            c.num.toLowerCase().includes(query)
+        );
+
+        filtrados.forEach(c => {
+            if (!canalesSeleccionados.includes(c.file)) {
+                canalesSeleccionados.push(c.file);
+            }
+        });
+
+        renderGridActual();
+        actualizarTextoBoton();
+    }
+
+    function limpiarSeleccion() {
+        canalesSeleccionados = [];
+        renderGridActual();
+        actualizarTextoBoton();
+        document.getElementById("previewArea").style.display = "none";
+    }
+
+    function renderGridActual() {
+        const query = document.getElementById("channelSearch").value.toLowerCase();
+        const filtrados = listaCanales.filter(c =>
+            c.name.toLowerCase().includes(query) ||
+            c.num.toLowerCase().includes(query)
+        );
+        renderGrid(filtrados);
+    }
+
+    function actualizarTextoBoton() {
+        const updateBtn = document.getElementById("updateButton");
+        if (canalesSeleccionados.length > 0) {
+            updateBtn.innerHTML = `🚀 PUBLICAR EN ${canalesSeleccionados.length} CANALES`;
+        } else {
+            updateBtn.innerHTML = "🚀 PUBLICAR ACTUALIZACIÓN";
+        }
+    }
+
+    function seleccionarArchivo() {
+        const file = document.getElementById("imagenArchivo").files[0];
+        if (!file) return;
+
+        document.getElementById("imagenUrl").value = "";
+        const nameEl = document.getElementById("fileName");
+        nameEl.textContent = `✅ LISTO: ${file.name}`;
+        nameEl.style.display = "block";
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById("newIcon").src = e.target.result;
+            document.getElementById("previewArea").style.display = "grid";
+
+            // Si no hay canales seleccionados, ocultamos el lado "Actual"
+            if (canalesSeleccionados.length === 0) {
+                document.getElementById("currentIconBox").style.display = "none";
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function verImagenUrl() {
+        const url = document.getElementById("imagenUrl").value.trim();
+        if (!url) return;
+
+        document.getElementById("imagenArchivo").value = "";
+        document.getElementById("fileName").style.display = "none";
+        document.getElementById("newIcon").src = url;
+        document.getElementById("previewArea").style.display = "grid";
+
+        // Si no hay canales seleccionados, ocultamos el lado "Actual"
+        if (canalesSeleccionados.length === 0) {
+            document.getElementById("currentIconBox").style.display = "none";
+        }
+    }
+
+    async function actualizarIcono() {
+        const url = document.getElementById("imagenUrl").value.trim();
+        const file = document.getElementById("imagenArchivo").files[0];
+        const btn = document.getElementById("updateButton");
+
+        if (canalesSeleccionados.length === 0) {
+            novaToast("Selecciona al menos un canal de la lista.", "error");
+            return;
+        }
+
+        if (!file && !url) {
+            novaToast("Sube una imagen o ingresa una URL.", "error");
+            return;
+        }
+
+        btn.disabled = true;
+        const total = canalesSeleccionados.length;
+        let procesados = 0;
+
+        novaToast(`Iniciando actualización de ${total} canales...`, "info");
+
+        try {
+            for (const canalFile of canalesSeleccionados) {
+                btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${procesados + 1}/${total}`;
+
+                let res;
+                if (file) {
+                    const fd = new FormData();
+                    fd.append("action", "actualizar");
+                    fd.append("canal", canalFile);
+                    fd.append("imagen", file);
+
+                    res = await fetch(API_URL_ICON, {
+                        method: "POST",
+                        headers: { "Authorization": "Bearer " + sessionToken },
+                        body: fd
+                    });
+                } else {
+                    res = await fetch(API_URL_ICON, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + sessionToken
+                        },
+                        body: JSON.stringify({ action: "actualizar", canal: canalFile, imagen_url: url })
+                    });
+                }
+
+                if (res.ok) {
+                    procesados++;
+                } else {
+                    const result = await res.json().catch(() => ({}));
+                    console.error(`Error en canal ${canalFile}:`, result.error);
+                }
+            }
+
+            if (procesados === total) {
+                novaToast(`¡Éxito! ${procesados} iconos actualizados.`, "success");
+                limpiarSeleccion();
+                document.getElementById("imagenArchivo").value = "";
+                document.getElementById("imagenUrl").value = "";
+                document.getElementById("fileName").style.display = "none";
+                localStorage.removeItem('pending_studio_icon');
+                setTimeout(() => {
+                    document.getElementById("currentIcon").src = document.getElementById("newIcon").src;
+                }, 1000);
+            } else if (procesados > 0) {
+                novaToast(`Se actualizaron ${procesados} de ${total} iconos. Revisa la consola.`, "warning");
+            } else {
+                throw new Error("No se pudo actualizar ningún icono.");
+            }
+        } catch (e) {
+            novaToast(e.message, "error");
+        } finally {
+            btn.disabled = false;
+            actualizarTextoBoton();
+        }
+    }
+
+    const dropzone = document.getElementById('dropzone');
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('active'); });
+    dropzone.addEventListener('dragleave', () => { dropzone.classList.remove('active'); });
+    dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('active');
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            document.getElementById('imagenArchivo').files = dt.files;
+            seleccionarArchivo();
+        }
+    });
+
+    document.getElementById("password").addEventListener("keydown", e => { if (e.key === "Enter") iniciarSesion(); });
+
+    // Toggle Menú Móvil
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const adminMenu = document.getElementById('adminMenu');
+    const btnAdmin = document.querySelector('.btn-admin');
+
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    }
+
+    // Toggle Dropdown en Móvil
+    if (btnAdmin) {
+        btnAdmin.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900) {
+                e.preventDefault();
+                adminMenu.classList.toggle('active');
+            }
+        });
+    }
+
+    // Cerrar menú al clickear link (móvil)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navToggle) navToggle.classList.remove('active');
+            if (navLinks) navLinks.classList.remove('active');
+        });
+    });
+
+    function dataURLtoFile(dataurl, filename) {
+        let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){ u8arr[n] = bstr.charCodeAt(n); }
+        return new File([u8arr], filename, {type:mime});
+    }
+
+    async function checkPendingStudioIcon() {
+        try {
+            const pending = localStorage.getItem('pending_studio_icon');
+            if (pending) {
+                const file = dataURLtoFile(pending, 'studio_icon.webp');
+
+                // Inyectar el archivo directamente en el input para que sea visible y procesable
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                document.getElementById('imagenArchivo').files = dt.files;
+
+                // Forzar la previsualización
+                document.getElementById("newIcon").src = pending;
+                document.getElementById("previewArea").style.display = "grid";
+                document.getElementById("currentIconBox").style.display = "none"; // Ocultar "Actual" hasta que elija canal
+                document.getElementById("fileName").textContent = "✅ IMAGEN CARGADA DESDE ICON STUDIO";
+                document.getElementById("fileName").style.display = "block";
+
+                novaToast("Se ha cargado la imagen del Icon Studio", "info");
+            }
+        } catch (e) {
+            console.error("Error al cargar imagen del studio:", e);
+        }
+    }
+
+    restaurarSesion();
+    checkPendingStudioIcon();
+</script>
+</body>
+</html>

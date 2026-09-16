@@ -1,0 +1,107 @@
+﻿name: Actualizar Icono
+
+on:
+  workflow_dispatch:
+    inputs:
+      canal:
+        description: "Archivo real del icono"
+        required: true
+        type: string
+      imagen_url:
+        description: "URL de la nueva imagen"
+        required: true
+        type: string
+
+concurrency:
+  group: update-icon-${{ github.event.inputs.canal }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar-icono:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Instalar Dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install Pillow requests
+
+      - name: Validar archivo del icono
+        run: |
+          ARCHIVO="${{ github.event.inputs.canal }}"
+          echo "Archivo solicitado: $ARCHIVO"
+          if [[ ! "$ARCHIVO" =~ ^[a-zA-Z0-9_-]+\.webp$ ]]; then
+            echo "Nombre de archivo inválido"
+            exit 1
+          fi
+
+      - name: Descargar y Convertir Imagen
+        run: |
+          python - <<'PY'
+          import os
+          import requests
+          import base64
+          from PIL import Image
+          from io import BytesIO
+
+          url = """${{ github.event.inputs.imagen_url }}""".strip()
+          canal = """${{ github.event.inputs.canal }}""".strip()
+          salida = os.path.join("icons", canal)
+          
+          print(f"Procesando canal: {canal}")
+          
+          try:
+              if url.startswith("data:image"):
+                  print("Detectada imagen en formato Base64")
+                  header, encoded = url.split(",", 1)
+                  data = base64.b64decode(encoded)
+                  img = Image.open(BytesIO(data))
+              else:
+                  print(f"Descargando imagen desde URL: {url}")
+                  headers = {"User-Agent": "Mozilla/5.0"}
+                  response = requests.get(url, headers=headers, timeout=30)
+                  response.raise_for_status()
+                  img = Image.open(BytesIO(response.content))
+
+              if img.mode not in ("RGB", "RGBA"):
+                  img = img.convert("RGBA")
+
+              img.thumbnail((512, 512))
+              os.makedirs("icons", exist_ok=True)
+              img.save(salida, "WEBP", quality=90, method=6)
+              print(f"✓ Icono actualizado correctamente: {salida}")
+          except Exception as e:
+              print(f"❌ Error procesando la imagen: {str(e)}")
+              exit(1)
+          PY
+
+      - name: Verificar archivo
+        run: |
+          ARCHIVO="${{ github.event.inputs.canal }}"
+          echo "Archivo generado:"
+          ls -lh "icons/$ARCHIVO"
+          file "icons/$ARCHIVO"
+
+      - name: Guardar cambios
+        run: |
+          ARCHIVO="${{ github.event.inputs.canal }}"
+          git config user.name "NovaImg Bot"
+          git config user.email "novaimg-bot@users.noreply.github.com"
+          git add "icons/$ARCHIVO"
+          if git diff --cached --quiet; then
+            echo "No hay cambios para guardar"
+            exit 0
+          fi
+          git commit -m "Actualizar icono $ARCHIVO [skip ci]"
+          git push
