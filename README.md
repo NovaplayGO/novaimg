@@ -1,4 +1,4 @@
-﻿# 🖼️ NovaPlay | Assets Hub
+# 🖼️ NovaPlay | Assets Hub
 
 Repositorio centralizado de activos visuales, logotipos e identidades gráficas para todo el ecosistema **NovaPlay**.
 
@@ -10,5 +10,5 @@ Repositorio centralizado de activos visuales, logotipos e identidades gráficas 
 *   **Integración Directa**: Conexión nativa con el Panel de Canales para una gestión de contenido fluida.
 
 ---
-**Desarrollado por MSGT**  
+****  
 © 2026 NovaPlay GO - Infraestructura de Contenidos.
