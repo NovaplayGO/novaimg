@@ -494,7 +494,7 @@ def generar_html(canales):
 
     <footer>
         <div class="footer-text">
-            Â© 2026 NOVAPLAY TV<br>
+            Â© 2026 NOVAPLAY GO<br>
             Â© 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS<br>
             <span style="font-size: 11px; opacity: 0.5;">SincronizaciÃ³n automÃ¡tica: {fecha}</span>
         </div>
