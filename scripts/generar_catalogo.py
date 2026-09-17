@@ -1,4 +1,4 @@
-﻿import os
+import os
 import json
 import html
 import urllib.request
@@ -68,7 +68,7 @@ def procesar_items(items, categoria_nombre):
         if not icono_url:
             print(f"â„¹ Canal sin icono definido en JSON: {nombre or numero}")
             icono = "novasplash.webp"
-            icono_url = "https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp"
+            icono_url = "https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp"
         else:
             icono = obtener_archivo_icono(icono_url)
             if not icono:
@@ -194,7 +194,7 @@ def generar_html(canales):
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>NOVAPLAY | CATÃLOGO DE IMAGENES</title>
-    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
+    <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -428,8 +428,8 @@ def generar_html(canales):
 
 <nav class="nova-nav">
     <div class="nav-inner">
-        <a class="nav-brand" href="https://novaplaytv.github.io/">
-            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
+        <a class="nav-brand" href="https://novaplaygo.github.io/">
+            <img src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp">
             NOVAPLAY | GALERÍA
         </a>
 
@@ -440,17 +440,17 @@ def generar_html(canales):
         </button>
 
         <div class="nav-links" id="navLinks">
-            <a href="https://novaplaytv.github.io/" style="color: var(--primary); font-weight: 800;">INICIO</a>
+            <a href="https://novaplaygo.github.io/" style="color: var(--primary); font-weight: 800;">INICIO</a>
             <button class="btn-login-nav" id="navLogin" onclick="UI_MostrarLogin()">INGRESAR</button>
             <div class="admin-menu" id="adminMenu">
                 <button class="btn-admin"><i class="fas fa-user-shield"></i> PANEL</button>
                 <div class="dropdown-content">
-                    <a href="https://novaplaytv.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a>
-                    <a href="https://novaplaytv.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a>
-                    <a href="https://novaplaytv.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a>
-                    <a href="https://novaplaytv.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de Señal</a>
-                    <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/"><i class="fas fa-icons"></i> Gestión de Iconos</a>
-                    <a href="https://novaplaytv.github.io/novaimg/generador/"><i class="fas fa-magic"></i> Icon Studio</a>
+                    <a href="https://novaplaygo.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a>
+                    <a href="https://novaplaygo.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a>
+                    <a href="https://novaplaygo.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a>
+                    <a href="https://novaplaygo.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de Señal</a>
+                    <a href="https://novaplaygo.github.io/novaimg/actualizar-icono/"><i class="fas fa-icons"></i> Gestión de Iconos</a>
+                    <a href="https://novaplaygo.github.io/novaimg/generador/"><i class="fas fa-magic"></i> Icon Studio</a>
                     <a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
                 </div>
             </div>
@@ -461,7 +461,7 @@ def generar_html(canales):
 <main>
     <header>
         <div class="header-content">
-            <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NovaPlay" class="header-logo">
+            <img src="https://raw.githubusercontent.com/NovaplayGO/novaimg/main/novasplash.webp" alt="NovaPlay" class="header-logo">
             <p class="description">Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
             <div class="stats">
                 <i class="fas fa-tv"></i> &nbsp; {len(canales)} canales indexados
@@ -567,7 +567,7 @@ function copiarURL(button) {{
 }}
 
 function UI_MostrarLogin() {{
-    window.location.href = "https://novaplaytv.github.io/novaimg/actualizar-icono/";
+    window.location.href = "https://novaplaygo.github.io/novaimg/actualizar-icono/";
 }}
 
 function checkAuth() {{
