@@ -1,4 +1,4 @@
-import os
+﻿import os
 import json
 import requests
 
@@ -11,7 +11,7 @@ ICON_DIR = "icons"
 
 GITHUB_ICON_URL = (
     "https://raw.githubusercontent.com/"
-    "ThedarkSoldier996/novaimg/main/icons/"
+    "NovaplayGO/novaimg/main/icons/"
 )
 
 os.makedirs(ICON_DIR, exist_ok=True)
@@ -41,7 +41,7 @@ print(
 
 
 # ==================================================
-# RECORRER CATEGORÍAS Y CANALES
+# RECORRER CATEGORÃAS Y CANALES
 # ==================================================
 
 channels = []
@@ -140,7 +140,7 @@ for position, channel in enumerate(
     ):
 
         print(
-            "URL inválida. Se mantiene sin modificar.",
+            "URL invÃ¡lida. Se mantiene sin modificar.",
             flush=True
         )
 
@@ -171,7 +171,7 @@ for position, channel in enumerate(
         if not response.content:
 
             raise Exception(
-                "La imagen descargada está vacía."
+                "La imagen descargada estÃ¡ vacÃ­a."
             )
 
 
@@ -225,7 +225,7 @@ for position, channel in enumerate(
 
 
         # ==================================================
-        # MODIFICAR ÚNICAMENTE "icono"
+        # MODIFICAR ÃšNICAMENTE "icono"
         # ==================================================
 
         channel["icono"] = new_url
