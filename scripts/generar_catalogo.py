@@ -98,16 +98,16 @@ def procesar_canales(data):
         for grupo in data:
             if not isinstance(grupo, dict):
                 continue
-            categoria_nombre = str(grupo.get("title", grupo.get("name", "SIN CATEGORÃA"))).strip()
+            categoria_nombre = str(grupo.get("title", grupo.get("name", "SIN CATEGORÍA"))).strip()
             if isinstance(grupo.get("items"), list):
                 items = grupo["items"]
-                print(f"Procesando categorÃ­a: {categoria_nombre} ({len(items)} items)")
+                print(f"Procesando categoría: {categoria_nombre} ({len(items)} items)")
                 canales.extend(procesar_items(items, categoria_nombre))
             elif "icono" in grupo:
                 canales.extend(procesar_items([grupo], categoria_nombre))
     elif isinstance(data, dict):
         if isinstance(data.get("items"), list):
-            canales.extend(procesar_items(data["items"], str(data.get("title", "SIN CATEGORÃA"))))
+            canales.extend(procesar_items(data["items"], str(data.get("title", "SIN CATEGORÍA"))))
         else:
             for clave, valor in data.items():
                 if isinstance(valor, list):
@@ -132,14 +132,14 @@ def generar_tarjetas(canales):
         categoria = html.escape(canal["categoria"])
         icono = html.escape(canal["icono"])
         icono_url = html.escape(canal["icono_url"], quote=True)
-        # AÃ±adir timestamp a la ruta local para forzar actualizaciÃ³n visual
+        # Añadir timestamp a la ruta local para forzar actualización visual
         ruta_local = f"icons/{icono}?t={ts}"
 
         tarjeta = f"""
         <article class="card" data-search="{nombre} {numero} {categoria} {icono} {icono_url}">
             <div class="card-header">
                 <div class="header-info">
-                    <div class="channel-number">CANAL {numero if numero else "â€”"}</div>
+                    <div class="channel-number">CANAL {numero if numero else "—"}</div>
                     <h2>{nombre}</h2>
                 </div>
                 <div class="category">{categoria}</div>
@@ -216,7 +216,7 @@ def generar_html(canales):
         * {{ box-sizing: border-box; outline: none; margin: 0; padding: 0; }}
         html, body {{ height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow: hidden; -webkit-font-smoothing: antialiased; }}
 
-        /* NavegaciÃ³n Premium */
+        /* Navegación Premium */
         .nova-nav {{ position: fixed; top: 0; width: 100%; z-index: 10000; background: rgba(0,0,0,0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }}
         .nav-inner {{ max-width: 1400px; margin: auto; height: var(--nav-height); padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }}
         .nav-brand {{ display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px; }}
@@ -247,7 +247,7 @@ def generar_html(canales):
         .nav-toggle {{ display: none; background: none; border: none; cursor: pointer; padding: 10px; flex-direction: column; gap: 5px; z-index: 10001; }}
         .nav-toggle span {{ display: block; width: 25px; height: 3px; background: #fff; transition: 0.3s; border-radius: 2px; }}
 
-        /* Dropdown de AdministraciÃ³n Premium - BLINDAJE TOTAL V4 */
+        /* Dropdown de Administración Premium - BLINDAJE TOTAL V4 */
         .admin-menu {{ position: relative; display: none; align-items: center; height: var(--nav-height); padding: 0 10px; }}
         .btn-admin {{ background: #fff; color: #000; font-weight: 900; border: none; cursor: pointer; padding: 10px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; transition: 0.3s; position: relative; z-index: 10002; }}
 
@@ -396,7 +396,7 @@ def generar_html(canales):
             .nav-links.active {{ right: 0; }}
             .nav-links a {{ font-size: 18px; width: 100%; text-align: center; padding: 15px; border-radius: 15px; }}
 
-            /* Ajuste del botÃ³n PANEL en mÃ³vil */
+            /* Ajuste del botón PANEL en móvil */
             .admin-menu {{ width: 100%; height: auto; justify-content: center; padding: 0; flex-direction: column; }}
             .admin-menu.active .dropdown-content {{ opacity: 1; visibility: visible; display: flex; }}
             .btn-admin {{ width: 100%; justify-content: center; padding: 18px; font-size: 16px; border-radius: 15px; }}
@@ -430,10 +430,10 @@ def generar_html(canales):
     <div class="nav-inner">
         <a class="nav-brand" href="https://novaplaytv.github.io/">
             <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp">
-            NOVAPLAY | GALERÃA
+            NOVAPLAY | GALERÍA
         </a>
 
-        <button class="nav-toggle" id="navToggle" aria-label="Abrir menÃº">
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
             <span></span>
             <span></span>
             <span></span>
@@ -448,10 +448,10 @@ def generar_html(canales):
                     <a href="https://novaplaytv.github.io/Dashboard/"><i class="fas fa-chart-line"></i> Dashboard Central</a>
                     <a href="https://novaplaytv.github.io/panel-canales/"><i class="fas fa-tv"></i> Admin. Canales</a>
                     <a href="https://novaplaytv.github.io/NovaSecurity/"><i class="fas fa-shield-alt"></i> NovaSecurity</a>
-                    <a href="https://novaplaytv.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de SeÃ±al</a>
-                    <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/"><i class="fas fa-icons"></i> GestiÃ³n de Iconos</a>
+                    <a href="https://novaplaytv.github.io/SignalVerificador/"><i class="fas fa-broadcast-tower"></i> Verificador de Señal</a>
+                    <a href="https://novaplaytv.github.io/novaimg/actualizar-icono/"><i class="fas fa-icons"></i> Gestión de Iconos</a>
                     <a href="https://novaplaytv.github.io/novaimg/generador/"><i class="fas fa-magic"></i> Icon Studio</a>
-                    <a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar SesiÃ³n</a>
+                    <a href="#" onclick="cerrarSesion(); return false;" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
                 </div>
             </div>
         </div>
@@ -462,14 +462,14 @@ def generar_html(canales):
     <header>
         <div class="header-content">
             <img src="https://raw.githubusercontent.com/novaplaytv/novaimg/main/novasplash.webp" alt="NovaPlay" class="header-logo">
-            <p class="description">GestiÃ³n centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
+            <p class="description">Gestión centralizada de canales, logotipos e identidades visuales para el ecosistema NovaPlay.</p>
             <div class="stats">
                 <i class="fas fa-tv"></i> &nbsp; {len(canales)} canales indexados
             </div>
         </div>
     </header>
     <section class="controls">
-        <input id="search" type="search" placeholder="Buscar canal, categorÃ­a o nombre de archivo...">
+        <input id="search" type="search" placeholder="Buscar canal, categoría o nombre de archivo...">
         <section class="category-filters">
             {filtro_botones}
         </section>
@@ -495,9 +495,9 @@ def generar_html(canales):
 
     <footer>
         <div class="footer-text">
-            Â© 2026 NOVAPLAY TV<br>
-            Â© 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS<br>
-            <span style="font-size: 11px; opacity: 0.5;">SincronizaciÃ³n automÃ¡tica: {fecha}</span>
+            © 2026 NOVAPLAY TV<br>
+            © 2010 - 2026 - MSGT. TODOS LOS DERECHOS RESERVADOS<br>
+            <span style="font-size: 11px; opacity: 0.5;">Sincronización automática: {fecha}</span>
         </div>
     </footer>
 </main>
@@ -579,7 +579,7 @@ function checkAuth() {{
 }}
 
 function cerrarSesion() {{
-    openModal("Cerrar SesiÃ³n", "Â¿EstÃ¡s seguro que deseas salir del CatÃ¡logo?", () => {{
+    openModal("Cerrar Sesión", "¿Estás seguro que deseas salir del Catálogo?", () => {{
         localStorage.removeItem("novaimg_session_token");
         localStorage.removeItem("novaplay_session_token");
         location.reload();
@@ -639,7 +639,7 @@ if ('serviceWorker' in navigator) {{
 document.addEventListener('DOMContentLoaded', () => {{
     checkAuth();
 
-    // Toggle MenÃº MÃ³vil
+    // Toggle Menú Móvil
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
     const adminMenu = document.getElementById('adminMenu');
@@ -652,7 +652,7 @@ document.addEventListener('DOMContentLoaded', () => {{
         }});
     }}
 
-    // Toggle Dropdown en MÃ³vil
+    // Toggle Dropdown en Móvil
     if (btnAdmin) {{
         btnAdmin.addEventListener('click', (e) => {{
             if (window.innerWidth <= 900) {{
@@ -662,7 +662,7 @@ document.addEventListener('DOMContentLoaded', () => {{
         }});
     }}
 
-    // Cerrar menÃº al clickear link (mÃ³vil)
+    // Cerrar menú al clickear link (móvil)
     document.querySelectorAll('.nav-links a').forEach(link => {{
         link.addEventListener('click', () => {{
             if (navToggle) navToggle.classList.remove('active');

@@ -41,7 +41,7 @@ print(
 
 
 # ==================================================
-# RECORRER CATEGORÃAS Y CANALES
+# RECORRER CATEGORÍAS Y CANALES
 # ==================================================
 
 channels = []
@@ -140,7 +140,7 @@ for position, channel in enumerate(
     ):
 
         print(
-            "URL invÃ¡lida. Se mantiene sin modificar.",
+            "URL inválida. Se mantiene sin modificar.",
             flush=True
         )
 
@@ -171,7 +171,7 @@ for position, channel in enumerate(
         if not response.content:
 
             raise Exception(
-                "La imagen descargada estÃ¡ vacÃ­a."
+                "La imagen descargada está vacía."
             )
 
 
