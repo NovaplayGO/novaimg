@@ -422,7 +422,7 @@
         if (!container) return;
         const toast = document.createElement('div');
         toast.className = `nova-toast ${type}`;
-        let icon = 'ðŸ””';
+        let icon = '🔔';
         if (type === 'success') icon = '✅';
         if (type === 'error') icon = '❌';
         toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
