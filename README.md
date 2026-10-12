@@ -1,14 +1,23 @@
-# 🖼️ NovaPlay | Assets Hub
+# 🚀 novaimg
 
-Repositorio centralizado de activos visuales, logotipos e identidades gráficas para todo el ecosistema **NovaPlay**.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/novaplaygo/novaimg/main/novasplash.webp" width="120" alt="NovaPlay Logo">
+</p>
 
-## 🚀 Componentes
-
-*   **Catálogo de Iconos**: Galería web con búsqueda y filtrado dinámico por categoría para más de 400 señales.
-*   **Gestor de Actualizaciones**: Panel administrativo para la subida y sincronización de nuevos logotipos en tiempo real.
-*   **Optimización Automática**: Sistema de procesamiento de imágenes para garantizar ligereza y velocidad en la APK.
-*   **Integración Directa**: Conexión nativa con el Panel de Canales para una gestión de contenido fluida.
+> **La galería de arte digital donde cada logo de canal brilla con elegancia.**
 
 ---
-****  
-© 2026 NovaPlay GO - Infraestructura de Contenidos.
+
+## 🧐 ¿Qué se hace en este repositorio?
+
+Repositorio de recursos gráficos e iconos de canales en formato `.webp`. Incluye herramientas web de conversión (*Icon Studio*) para estandarizar los logos al formato visual de la plataforma.
+
+---
+
+## 📜 Licencia
+
+Este proyecto se distribuye bajo la **Licencia MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles (en resumen: úsalo bajo tu propio riesgo y sé feliz).
+
+<p align="center">
+  <i>Desarrollado con ❤️, código abierto y paciencia infinita por el equipo de NovaPlay.</i>
+</p>
