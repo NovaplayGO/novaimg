@@ -1,0 +1,66 @@
+name: Check Orphan Icons (Monthly)
+
+on:
+  schedule:
+    - cron: '0 0 1 * *' # Ejecutar el día 1 de cada mes a las 00:00 UTC
+  workflow_dispatch: # Permitir ejecución manual
+
+jobs:
+  check-orphans:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Check Orphan Icons
+        env:
+          NOVAPLAY_JSON_URL: ${{ secrets.NOVAPLAY_JSON_URL }}
+        run: |
+          python -c '
+          import os
+          import json
+          import urllib.request
+          import re
+          import glob
+
+          json_url = os.environ.get("NOVAPLAY_JSON_URL")
+          if not json_url:
+              print("ERROR: NOVAPLAY_JSON_URL secret is missing.")
+              exit(1)
+
+          print("Descargando novaplay.json de forma segura...")
+          req = urllib.request.Request(json_url, headers={"User-Agent": "GitHubActions-OrphanChecker"})
+          try:
+              with urllib.request.urlopen(req) as response:
+                  data = response.read().decode("utf-8")
+          except Exception as e:
+              print(f"Error al descargar novaplay.json: {e}")
+              exit(1)
+
+          referenced_icons = set(re.findall(r"([^\"/]+\.webp)", data, re.IGNORECASE))
+          referenced_icons = {icon.lower() for icon in referenced_icons}
+          print(f"Referencias únicas encontradas en novaplay.json: {len(referenced_icons)}")
+
+          physical_icons = glob.glob("icons/*.webp")
+          print(f"Total de archivos físicos .webp en icons/: {len(physical_icons)}")
+
+          orphans = []
+          for path in physical_icons:
+              filename = os.path.basename(path)
+              if filename.lower() not in referenced_icons:
+                  orphans.append(filename)
+
+          print("----------------------------------------")
+          print(f"Imágenes HUÉRFANAS encontradas: {len(orphans)}")
+          if orphans:
+              print("Lista de imágenes huérfanas:")
+              for o in sorted(orphans):
+                  print(f" - {o}")
+          else:
+              print("¡Excelente! No hay imágenes huérfanas en novaimg/icons.")
+          '
