@@ -17,24 +17,30 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Check Orphan Icons
+      - name: Check Orphan Icons (Private Repo Support)
         env:
           NOVAPLAY_JSON_URL: ${{ secrets.NOVAPLAY_JSON_URL }}
+          NOVAPLAY_API_TOKEN: ${{ secrets.NOVAPLAY_API_TOKEN }}
         run: |
           python -c '
           import os
-          import json
           import urllib.request
           import re
           import glob
 
           json_url = os.environ.get("NOVAPLAY_JSON_URL")
+          api_token = os.environ.get("NOVAPLAY_API_TOKEN")
+
           if not json_url:
               print("ERROR: NOVAPLAY_JSON_URL secret is missing.")
               exit(1)
 
-          print("Descargando novaplay.json de forma segura...")
-          req = urllib.request.Request(json_url, headers={"User-Agent": "GitHubActions-OrphanChecker"})
+          headers = {"User-Agent": "GitHubActions-OrphanChecker"}
+          if api_token:
+              headers["Authorization"] = f"Bearer {api_token}"
+
+          print("Descargando novaplay.json de repositorio privado de forma segura...")
+          req = urllib.request.Request(json_url, headers=headers)
           try:
               with urllib.request.urlopen(req) as response:
                   data = response.read().decode("utf-8")
