@@ -20,11 +20,15 @@ def descargar_json(url):
         "User-Agent": "NovaImg-Catalog-Generator/1.0"
     }
     
-    # Si existe una API Key en el entorno (Supabase), usarla para evitar errores 400/401/403
-    api_key = (os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_ANON_KEY", "")).strip()
-    if api_key:
-        headers["apikey"] = api_key
-        headers["Authorization"] = f"Bearer {api_key}"
+    # Autenticación para GitHub o Supabase
+    github_token = (os.environ.get("NOVAPLAY_API_TOKEN") or os.environ.get("GITHUB_TOKEN", "")).strip()
+    if github_token and ("github" in url or "raw.githubusercontent.com" in url):
+        headers["Authorization"] = f"Bearer {github_token}"
+    else:
+        api_key = (os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_ANON_KEY", "")).strip()
+        if api_key:
+            headers["apikey"] = api_key
+            headers["Authorization"] = f"Bearer {api_key}"
 
     request = urllib.request.Request(url_fresca, headers=headers)
 
