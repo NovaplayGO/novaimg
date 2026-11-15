@@ -49,5 +49,6 @@ jobs:
             echo "No hay cambios para guardar"
           else
             git commit -m "Actualizar catálogo de iconos [skip ci]"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi

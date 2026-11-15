@@ -1,19 +1,19 @@
-﻿name: Actualizar Icono
+﻿name: Actualizar Icono Individual
 
 on:
   workflow_dispatch:
     inputs:
       canal:
-        description: "Archivo real del icono"
+        description: 'Nombre del archivo webp (ej: 006.webp)'
         required: true
         type: string
       imagen_url:
-        description: "URL de la nueva imagen"
+        description: 'URL de la imagen (Directa o Base64)'
         required: true
         type: string
 
 concurrency:
-  group: update-icon-${{ github.event.inputs.canal }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -30,12 +30,10 @@ jobs:
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.12"
 
-      - name: Instalar Dependencias
-        run: |
-          python -m pip install --upgrade pip
-          pip install Pillow requests
+      - name: Instalar dependencias
+        run: pip install pillow requests
 
       - name: Validar archivo del icono
         run: |
@@ -63,30 +61,28 @@ jobs:
           
           try:
               if url.startswith("data:image"):
-                  print("Detectada imagen en formato Base64")
                   header, encoded = url.split(",", 1)
-                  data = base64.b64decode(encoded)
-                  img = Image.open(BytesIO(data))
+                  image_data = base64.b64decode(encoded)
               else:
-                  print(f"Descargando imagen desde URL: {url}")
                   headers = {"User-Agent": "Mozilla/5.0"}
                   response = requests.get(url, headers=headers, timeout=30)
                   response.raise_for_status()
-                  img = Image.open(BytesIO(response.content))
+                  image_data = response.content
 
-              if img.mode not in ("RGB", "RGBA"):
-                  img = img.convert("RGBA")
-
-              img.thumbnail((512, 512))
               os.makedirs("icons", exist_ok=True)
-              img.save(salida, "WEBP", quality=90, method=6)
-              print(f"✓ Icono actualizado correctamente: {salida}")
+              img = Image.open(BytesIO(image_data)).convert("RGBA")
+              
+              # Redimensionar opcional si es muy grande manteniendo aspecto (max 512x512)
+              img.thumbnail((512, 512), Image.Resampling.LANCZOS)
+              
+              img.save(salida, "WEBP", quality=85)
+              print(f"Imagen convertida y guardada exitosamente en {salida}")
           except Exception as e:
-              print(f"❌ Error procesando la imagen: {str(e)}")
+              print(f"Error procesando imagen: {e}")
               exit(1)
           PY
 
-      - name: Verificar archivo
+      - name: Verificar archivo generado
         run: |
           ARCHIVO="${{ github.event.inputs.canal }}"
           echo "Archivo generado:"
@@ -104,4 +100,5 @@ jobs:
             exit 0
           fi
           git commit -m "Actualizar icono $ARCHIVO [skip ci]"
-          git push
+          git pull --rebase origin main
+          git push origin main

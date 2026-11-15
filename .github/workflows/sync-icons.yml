@@ -41,5 +41,6 @@ jobs:
             echo "No hay cambios."
           else
             git commit -m "Update NovaPlay icons [skip ci]"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
